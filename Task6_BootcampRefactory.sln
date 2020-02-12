@@ -1,0 +1,23 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CLITraining", "CLI\CLITraining.csproj", "{5716C58B-B553-485E-8953-153A3A309E9D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CLIChallenge", "CLIChallenge\CLIChallenge.csproj", "{FDCF869C-732C-4165-B45F-9118272D6525}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5716C58B-B553-485E-8953-153A3A309E9D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5716C58B-B553-485E-8953-153A3A309E9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5716C58B-B553-485E-8953-153A3A309E9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5716C58B-B553-485E-8953-153A3A309E9D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FDCF869C-732C-4165-B45F-9118272D6525}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FDCF869C-732C-4165-B45F-9118272D6525}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FDCF869C-732C-4165-B45F-9118272D6525}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FDCF869C-732C-4165-B45F-9118272D6525}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
