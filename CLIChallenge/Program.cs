@@ -21,6 +21,7 @@ namespace CLIChallenge
         typeof(Divide),
         typeof(Palindrome),
         typeof(Obfuscator),
+        typeof(Randomize),
         typeof(Infinite)
     )]
 
@@ -207,6 +208,69 @@ namespace CLIChallenge
                     }
                 }
                 Console.WriteLine(sum);
+            }
+        }
+
+        [Command(Description = "Command to Infinity Input", Name = "random")]
+        class Randomize
+        {
+            [Option("--letters")]
+            public string letters { get; set; }
+            [Option("--numbers")]
+            public string Number { get; set; }
+            [Option("--length")]
+            public int Length { get; set; }
+            [Option("--uppercase")]
+            public bool upper { get; set; }
+            [Option("--lowercase")]
+            public bool lower { get; set; }
+            public void OnExecute(CommandLineApplication app)
+            {
+                Random random = new Random();
+                var all = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+                var num = "0123456789";
+                var hur = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+                var chars = "";
+
+                var char32 = new char[32];
+                var charLen = new char[Length];
+                var stringChars = new char[0];
+
+                stringChars = Length == 32 || Length == 0? char32 : charLen;
+
+                if (letters == "false")
+                {
+                    chars = num;
+                }
+                else if (letters == "true" && Number == "false")
+                {
+                    chars = hur;
+                }
+                else
+                {
+                    chars = all;
+                }
+
+                for (int i = 0; i < stringChars.Length; i++)
+                {
+                    stringChars[i] = chars[random.Next(chars.Length)];
+                }
+
+                if (upper == true)
+                {
+                    var finalStringUp = new String(stringChars).ToUpper();
+                    Console.WriteLine(finalStringUp);
+                }
+                else if(lower == true)
+                {
+                    var finalStringLow = new String(stringChars).ToLower();
+                    Console.WriteLine(finalStringLow);
+                }
+                else
+                {
+                    var finalString = new String(stringChars);
+                    Console.WriteLine(finalString);
+                }
             }
         }
     }
