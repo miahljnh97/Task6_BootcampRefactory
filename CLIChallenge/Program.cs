@@ -22,7 +22,9 @@ namespace CLIChallenge
         typeof(Palindrome),
         typeof(Obfuscator),
         typeof(Randomize),
-        typeof(Infinite)
+        typeof(Infinite),
+        typeof(IP),
+        typeof(IPEx)
     )]
 
     class Program
@@ -271,6 +273,32 @@ namespace CLIChallenge
                     var finalString = new String(stringChars);
                     Console.WriteLine(finalString);
                 }
+            }
+        }
+
+        [Command(Description = "Command to private IP Address", Name = "ip")]
+        class IP
+        {
+            public void OnExecute(CommandLineApplication app)
+            {
+                var host = Dns.GetHostEntry(Dns.GetHostName());
+                foreach(var k in host.AddressList)
+                {
+                    if(k.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
+                    {
+                        Console.WriteLine($" Your internal IP Address is : {k.ToString()}");
+                    }
+                }
+            }
+        }
+
+        [Command(Description = "Command to private IP Address", Name = "ip-external")]
+        class IPEx
+        {
+            public void OnExecute(CommandLineApplication app)
+            {
+                string k = new WebClient().DownloadString("http://icanhazip.com/");
+                Console.WriteLine($" Your external IP Address is : {k}");
             }
         }
     }
