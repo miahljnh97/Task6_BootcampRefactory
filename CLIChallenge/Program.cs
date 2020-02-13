@@ -22,9 +22,10 @@ namespace CLIChallenge
         typeof(Palindrome),
         typeof(Obfuscator),
         typeof(Randomize),
-        typeof(Infinite),
         typeof(IP),
-        typeof(IPEx)
+        typeof(IPEx),
+        typeof(URL),
+        typeof(Infinite)
     )]
 
     class Program
@@ -188,30 +189,6 @@ namespace CLIChallenge
             }
         }
 
-        [Command(Description = "Command to Infinity Input", Name = "sum")]
-        class Infinite
-        {
-            public void OnExecute(CommandLineApplication app)
-            {
-                long sum = 0;
-                string A = "";
-                while (A != null)
-                {
-                    Console.Write("Insert Number :");
-                    string B = Console.ReadLine();
-                    if (B == "" || B == " ")
-                    {
-                        break;
-                    }
-                    else
-                    {
-                        long C = Convert.ToInt32(B);
-                        sum += C;
-                    }
-                }
-                Console.WriteLine(sum);
-            }
-        }
 
         [Command(Description = "Command to Infinity Input", Name = "random")]
         class Randomize
@@ -299,6 +276,69 @@ namespace CLIChallenge
             {
                 string k = new WebClient().DownloadString("http://icanhazip.com/");
                 Console.WriteLine($" Your external IP Address is : {k}");
+            }
+        }
+
+        [Command(Description = "Command to private IP Address", Name = "screenshot")]
+        class URL
+        {
+            [Argument(0)]
+            public string url { get; set; }
+            public string output { get; set; }
+
+            [Option("--format")]
+            public string format { get; set; }
+
+            public void OnExecute(CommandLineApplication app)
+            {
+                string format = "PNG";
+                string output = "ss-1.PNG";
+                string path = $"/Users/user/Projects/Task6_BootcampRefactory/CLIChallenge/{output}";
+                string link = $"http://api.screenshotlayer.com/api/capture?access_key=d31076a41cffbdddd4fea11afb2af375&url={url}&viewport=1440x900&width=1440";
+                WebClient webClient = new WebClient();
+                int count = 1;
+                string newOutput = output.Substring(0, output.IndexOf('.'));
+
+                if (format != "PNG")
+                {
+                    path = $"/Users/user/Projects/Task6_BootcampRefactory/CLIChallenge/{newOutput}.{format}";
+                }
+
+                while (File.Exists(path))
+                {
+                    count++;
+                    string incrementoutput = $"{newOutput.Substring(0, output.IndexOf('-'))}-{count}";
+                    path = $"/Users/user/Projects/Task6_BootcampRefactory/CLIChallenge/{incrementoutput}.{format}";
+                }
+
+                webClient.DownloadFile(link, path);
+            }
+        
+        }
+
+
+        [Command(Description = "Command to Infinity Input", Name = "sum")]
+        class Infinite
+        {
+            public void OnExecute(CommandLineApplication app)
+            {
+                long sum = 0;
+                string A = "";
+                while (A != null)
+                {
+                    Console.Write("Insert Number :");
+                    string B = Console.ReadLine();
+                    if (B == "" || B == " ")
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        long C = Convert.ToInt32(B);
+                        sum += C;
+                    }
+                }
+                Console.WriteLine(sum);
             }
         }
     }
