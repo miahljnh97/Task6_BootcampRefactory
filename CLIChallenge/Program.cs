@@ -11,234 +11,203 @@ using System.Net;
 namespace CLIChallenge
 {
     [HelpOption("--helpp")]
+    [Subcommand(
+        typeof(Lowercase),
+        typeof(Uppercase),
+        typeof(Capitalize),
+        typeof(Add),
+        typeof(Subtract),
+        typeof(Multiply),
+        typeof(Divide),
+        typeof(Palindrome),
+        typeof(Obfuscator),
+        typeof(Infinite)
+    )]
+
     class Program
     {
         static int Main(string[] args)
         {
-            return CommandLineApplication.Execute<Program>();
+            return CommandLineApplication.Execute<Program>(args);
         }
 
-        [Option(Description = "String Transformation")]
-        public string Subject { get; set; }
-
-
-        [Option(ShortName = "n")]
-        public int Count { get; }
-
-        private void OnExecute()
+        [Command(Description = "Command to Lowercase string", Name = "lowercase")]
+        class Lowercase
         {
-            //static void Lowercase()
-            //{
-            //    Console.WriteLine("Masukkan kalimat yang anda inginkan :");
-            //    string args = Console.ReadLine();
-            //    string ArgsLow = args.ToLower();
-            //    Console.WriteLine($"Lowercaser the sentence : {ArgsLow}");
-            //}
+            [Argument(0)]
+            public string text { get; set; }
+            public void OnExecute(CommandLineApplication app)
+            {
+                Console.WriteLine($"Lowercase the sentence : {text.ToLower()}");
+            }
+        }
 
-            //static void Uppercase()
-            //{
-            //    Console.WriteLine("Masukkan kalimat yang anda inginkan :");
-            //    string args = Console.ReadLine();
-            //    string ArgsUp = args.ToUpper();
-            //    Console.WriteLine($"Uppercase the sentence : {ArgsUp}");
-            //}
+        [Command(Description = "Command to Uppercase string", Name = "uppercase")]
+        class Uppercase
+        {
+            [Argument(0)]
+            public string text { get; set; }
+            public void OnExecute(CommandLineApplication app)
+            {
+                Console.WriteLine($"Uppercase the sentence : {text.ToUpper()}");
+            }
+        }
 
-            //static void Capitalize()
-            //{
-            //    Console.WriteLine("Masukkan kalimat yang anda inginkan :");
-            //    string args = Console.ReadLine();
-            //    char[] ch = ArgsLow.ToCharArray();
-            //    if (ch.Length >= 1)
-            //    {
-            //        if (char.IsLower(ch[0]))
-            //        {
-            //            ch[0] = char.ToUpper(ch[0]);
-            //        }
-            //    }
-            //    for (int i = 1; i < ch.Length - 1; i++)
-            //    {
-            //        if (ch[i - 1] == ' ')
-            //        {
-            //            if (char.IsLower(ch[i]))
-            //            {
-            //                ch[i] = char.ToUpper(ch[i]);
-            //            }
-            //        }
-            //    }
-            //    string rev = new string(ch);
-            //    Console.WriteLine($"Capitalize the sentence : {rev}");
-            //}
+        [Command(Description = "Command to Capitalize string", Name = "capitalize")]
+        class Capitalize
+        {
+            [Argument(0)]
+            public string text { get; set; }
+            public void OnExecute(CommandLineApplication app)
+            {
+                var textLow = text.ToLower();
+                char[] ch = textLow.ToCharArray();
+                if (ch.Length >= 1)
+                {
+                    if (char.IsLower(ch[0]))
+                    {
+                        ch[0] = char.ToUpper(ch[0]);
+                    }
+                }
+                for (int i = 1; i < ch.Length - 1; i++)
+                {
+                    if (ch[i - 1] == ' ')
+                    {
+                        if (char.IsLower(ch[i]))
+                        {
+                            ch[i] = char.ToUpper(ch[i]);
+                        }
+                    }
+                }
+                string rev = new string(ch);
+                Console.WriteLine($"Capitalize the sentence : {rev}");
+            }
+        }
 
-            //static void Sum()
-            //{
-            //    Console.Write("Masukkan 5 angka yang kamu inginkan satu per satu: ");
-            //    int[] data = new int[5];
-            //    for (int i = 0; i < data.Length; i++)
-            //    {
-            //        data[i] = Convert.ToInt32(Console.ReadLine());
-            //    }
-            //    int a = data.Sum();
-            //    Console.WriteLine($"Sum from data is : {a}");
-            //}
+        [Command(Description = "Command to Sum", Name = "add")]
+        class Add
+        {
+            [Argument(0)]
+            public int[] num { get; set; }
+            public void OnExecute(CommandLineApplication app)
+            {
+                long sum = 0;
+                for(int i = 0; i< num.Length; i++)
+                {
+                    sum += num[i];
+                }
+                Console.WriteLine(sum);
+            }
+        }
 
-            //static void Substract()
-            //{
-            //    Console.Write("Masukkan 3 angka yang kamu inginkan satu per satu: ");
-            //    int[] data = new int[3];
-            //    for (int i = 0; i < data.Length; i++)
-            //    {
-            //        data[i] = Convert.ToInt32(Console.ReadLine());
-            //    }
-            //    int b = data[0] - data[1] - data[2];
-            //    Console.WriteLine(b);
-            //}
+        [Command(Description = "Command to Subtract", Name = "subtract")]
+        class Subtract
+        {
+            [Argument(0)]
+            public int[] num { get; set; }
+            public void OnExecute(CommandLineApplication app)
+            {
+                long sub = 0;
+                for (int i = 0; i < num.Length; i++)
+                {
+                    sub -= num[i];
+                }
+                Console.WriteLine(sub);
+            }
+        }
 
-            //static void Multiply()
-            //{
-            //    Console.Write("Masukkan 3 angka yang kamu inginkan satu per satu: ");
-            //    int[] data = new int[3];
-            //    for (int i = 0; i < data.Length; i++)
-            //    {
-            //        data[i] = Convert.ToInt32(Console.ReadLine());
-            //    }
-            //    int c =data[0] * data[1] * data[2];
-            //    Console.WriteLine(c);
-            //}
+        [Command(Description = "Command to Multiply", Name = "multiply")]
+        class Multiply
+        {
+            [Argument(0)]
+            public int[] num { get; set; }
+            public void OnExecute(CommandLineApplication app)
+            {
+                long mul = num[0];
+                for (int i = 1; i < num.Length; i++)
+                {
+                    mul *= num[i];
+                }
+                Console.WriteLine(mul);
+            }
+        }
 
-            //static void Divide()
-            //{
-            //    Console.Write("Masukkan 3 angka yang kamu inginkan satu per satu: ");
-            //    int[] data = new int[3];
-            //    for (int i = 0; i < data.Length; i++)
-            //    {
-            //        data[i] = Convert.ToInt32(Console.ReadLine());
-            //    }
-            //    int d = (data[0] / data[1]) / data[2];
-            //    Console.WriteLine(d);
-            //}
+        [Command(Description = "Command to Divide", Name = "divide")]
+        class Divide
+        {
+            [Argument(0)]
+            public int[] num { get; set; }
+            public void OnExecute(CommandLineApplication app)
+            {
+                long div = num[0];
+                for (int i = 1; i < num.Length; i++)
+                {
+                    div /= num[i];
+                }
+                Console.WriteLine(div);
+            }
+        }
 
-            //static void Palindrom()
-            //{
-            //    Console.WriteLine("Masukkan kata yang anda inginkan;");
-            //    string str1 = Console.ReadLine();
-            //    string str2 = Regex.Replace(str1, @"[a-zA-Z]+", "");
-            //    char[] ch = str2.ToCharArray();
-            //    Array.Reverse(ch);
-            //    string rev = new string(ch);
+        [Command(Description = "Command to Palindrome", Name = "palindrome")]
+        class Palindrome
+        {
+            [Argument(0)]
+            public string text { get; set; }
+            public void OnExecute(CommandLineApplication app)
+            {
+                string str1 = text.ToLower();
+                string str2 = Regex.Replace(str1, @"[a-zA-Z]+", "");
+                char[] ch = str2.ToCharArray();
+                Array.Reverse(ch);
+                string rev = new string(ch);
 
-            //    Console.WriteLine(str1);
-            //    bool y = str2.Equals(rev, StringComparison.OrdinalIgnoreCase);
-            //    var yes = y ? "Yes" : "No";
-            //    Console.WriteLine($"Is palindrome ? {yes}");
-            //}
+                Console.WriteLine($"String : { text}");
+                bool y = str2.Equals(rev, StringComparison.OrdinalIgnoreCase);
+                var yes = y ? "Yes" : "No";
+                Console.WriteLine($"Is palindrome ? {yes}");
+            }
+        }
 
-            //static void Obduscator()
-            //{
-            //    Console.WriteLine("Masukkan kalimat yang anda inginkan :");
-            //    string args = Console.ReadLine();
-            //    char[] ch = args.ToCharArray();
-            //    List<string> Ob = new List<string>();
-            //    foreach (var i in ch)
-            //    {
-            //        Ob.Add($"&#{Convert.ToString(Convert.ToInt32(i))}");
-            //    }
-            //    Console.WriteLine(String.Join(';', Ob));
-            //}
+        [Command(Description = "Command to Obfuscator", Name = "obfuscate")]
+        class Obfuscator
+        {
+            [Argument(0)]
+            public string text { get; set; }
+            public void OnExecute(CommandLineApplication app)
+            {
+                char[] ch = text.ToCharArray();
+                List<string> Ob = new List<string>();
+                foreach (var i in ch)
+                {
+                    Ob.Add($"&#{Convert.ToString(Convert.ToInt32(i))}");
+                }
+                Console.WriteLine(String.Join(';', Ob));
+            }
+        }
 
-            //static void Random()
-            //{
-            //    Random random = new Random();
-            //    var all = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-            //    var num = "0123456789";
-            //    var hur = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-            //    Console.WriteLine("Using Number? :");
-            //    var Number = Console.ReadLine();
-            //    Console.WriteLine("Using letter? :");
-            //    var letter = Console.ReadLine();
-            //    Console.WriteLine("Uppercase? :");
-            //    var upper = Console.ReadLine();
-
-
-            //    var char10 = new char[10];
-            //    var char20 = new char[20];
-            //    var char32 = new char[32];
-            //    var stringChars = new char[0];
-
-            //    Console.WriteLine("How length? 10, 20, or 32? :");
-            //    var len = Convert.ToInt32(Console.ReadLine());
-            //    var chars = "";
-
-            //    if (len == 10)
-            //    {
-            //        stringChars = char10;
-            //    }
-            //    else if (len == 20)
-            //    {
-            //        stringChars = char20;
-            //    }
-            //    else
-            //    {
-            //        stringChars = char32;
-            //    }
-
-
-            //    if (letter == "false")
-            //    {
-            //        chars = num;
-            //    }
-            //    else if (letter == "true" && Number == "false")
-            //    {
-            //        chars = hur;
-            //    }
-            //    else
-            //    {
-            //        chars = all;
-            //    }
-
-            //    for (int i = 0; i < stringChars.Length; i++)
-            //    {
-            //        stringChars[i] = chars[random.Next(chars.Length)];
-            //    }
-
-            //    if (upper == "true")
-            //    {
-            //        var finalStringUp = new String(stringChars).ToUpper();
-            //        Console.WriteLine($"Uppercase : {finalStringUp}");
-            //    }
-            //    else
-            //    {
-            //        var finalString = new String(stringChars);
-            //        Console.WriteLine(finalString);
-            //    }
-            //}
-
-            //static void Infinite()
-            //{
-            //    long sum = 0;
-            //    string A = "";
-            //    while (A != null)
-            //    {
-            //        Console.Write("Insert Number :");
-            //        string B = Console.ReadLine();
-            //        if (B == "" || B == " ")
-            //        {
-            //            break;
-            //        }
-            //        else
-            //        {
-            //            long C = Convert.ToInt32(B);
-            //            sum += C;
-            //        }
-            //    }
-            //    Console.WriteLine(sum);
-            //}
-
-            string hostName = Dns.GetHostName(); // Retrive the Name of HOST  
-            Console.WriteLine(hostName);
-            // Get the IP  
-            string myIP = Dns.GetHostByName(hostName).AddressList[0].ToString();
-            Console.WriteLine("My IP Address is :" + myIP);
-            Console.ReadKey();
+        [Command(Description = "Command to Infinity Input", Name = "sum")]
+        class Infinite
+        {
+            public void OnExecute(CommandLineApplication app)
+            {
+                long sum = 0;
+                string A = "";
+                while (A != null)
+                {
+                    Console.Write("Insert Number :");
+                    string B = Console.ReadLine();
+                    if (B == "" || B == " ")
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        long C = Convert.ToInt32(B);
+                        sum += C;
+                    }
+                }
+                Console.WriteLine(sum);
+            }
         }
     }
 }
